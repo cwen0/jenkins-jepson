@@ -17,9 +17,10 @@ def call(JEPSEN_BRANCH) {
             stage('test') {
                dir("${ws}/jepsen") {
                     def result = sh(script: "docker exec jepsen-control bash -c 'cd /jepsen/tidb && ./run.sh'", returnStdout: true)
+                    sh "echo ${result}"
                }
             }
-             stage('Summary') {
+/*             stage('Summary') {
                 def duration = ((System.currentTimeMillis() - currentBuild.startTimeInMillis) / 1000 / 60).setScale(2, BigDecimal.ROUND_HALF_UP)
                 def slackmsg = "[${env.JOB_NAME.replaceAll('%2F','/')}-${env.BUILD_NUMBER}] `${result}`" + "\n" +
                 "Elapsed Time: `${duration}` Mins" + "\n""
@@ -30,6 +31,7 @@ def call(JEPSEN_BRANCH) {
                     slackSend channel: '#octopus', color: 'good', teamDomain: 'pingcap', tokenCredentialId: 'slack-pingcap-token', message: "${slackmsg}"
                 }
             }
+            */
         }
     }
 }
