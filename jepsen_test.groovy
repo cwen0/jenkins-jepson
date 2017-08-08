@@ -12,9 +12,8 @@ def call(JEPSEN_BRANCH) {
                    // checkout scm
                    git credentialsId: 'github-iamxy-ssh', url: "$BUILD_URL", branch: "${JEPSEN_BRANCH}"
                    githash = sh(returnStdout: true, script: "git rev-parse HEAD").trim()
-                   sh "ls -l"
-                   sh "cd docker&& ls -l"
-                   sh "bash run.sh"
+                   sh "cd docker"
+                   sh "bash up.sh"
                }
             }
             stage('test') {
