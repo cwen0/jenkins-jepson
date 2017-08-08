@@ -15,11 +15,9 @@ def call(JEPSEN_BRANCH) {
                }
             }
             stage('test') {
-               dir("${ws}/jepsen") {
                     sh "echo 'start'"
                     def result = sh(script: "docker exec jepsen-control bash -c 'cd /jepsen/tidb && ./run.sh'", returnStdout: true)
                     sh "echo ${result}"
-               }
             }
 /*             stage('Summary') {
                 def duration = ((System.currentTimeMillis() - currentBuild.startTimeInMillis) / 1000 / 60).setScale(2, BigDecimal.ROUND_HALF_UP)
