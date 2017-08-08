@@ -1,4 +1,4 @@
-def call(JEPSEN_BRANCH) {
+def call(RELEASE_URL, JEPSEN_BRANCH) {
     def BUILD_URL = 'git@github.com:UncP/jepsen.git'
     def UCLOUD_OSS_URL = "http://pingcap-dev.hk.ufileos.com"
     env.PATH = "/data/jenkins/bin:/bin:${env.PATH}"
@@ -16,7 +16,7 @@ def call(JEPSEN_BRANCH) {
             }
             stage('test') {
                     sh "echo 'start'"
-                    def result = sh(script: "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && ./run.sh'", returnStdout: true)
+                    def result = sh(script: "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && ./run.sh ${RELEASE_URL}'", returnStdout: true)
                     sh "echo ${result}"
             }
 /*             stage('Summary') {
