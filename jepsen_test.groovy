@@ -16,6 +16,7 @@ def call(JEPSEN_BRANCH) {
             }
             stage('test') {
                dir("${ws}/jepsen") {
+                    sh "echo 'start'"
                     def result = sh(script: "docker exec jepsen-control bash -c 'cd /jepsen/tidb && ./run.sh'", returnStdout: true)
                     sh "echo ${result}"
                }
