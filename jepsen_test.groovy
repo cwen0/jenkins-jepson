@@ -21,13 +21,9 @@ def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH) {
         }
         result = "SUCCESS"
     }
-   stage('symmary') {
+   stage('Summary') {
        def duration = ((System.currentTimeMillis() - currentBuild.startTimeInMillis) / 1000 / 60).setScale(2, BigDecimal.ROUND_HALF_UP)
-       def slackmsg = "[${env.JOB_NAME.replaceAll('%2F','/')}-${env.BUILD_NUMBER}] `${result}`" + "\n" +
-       "Elapsed Time: `${duration}` Mins" + "\n"  +
-       "tidb Branch: `${TIDB_BRANCH}` + "\n" +
-       "tikv Branch: `${TIKV_BRANCH}` + "\n" +
-       "pd   Branch: `${PD_BRANCH}` + "\n"
+       def slackmsg = "[${env.JOB_NAME.replaceAll('%2F','/')}-${env.BUILD_NUMBER}] `${result}`" + "\n" + "Elapsed Time: `${duration}` Mins" + "\n"  +  "tidb Branch: `${TIDB_BRANCH}` + "\n" + "tikv Branch: `${TIKV_BRANCH}` + "\n" + "pd   Branch: `${PD_BRANCH}` + "\n"
 
        if (result != "SUCCESS") {
            slackSend channel: '#octopus', color: 'danger', teamDomain: 'pingcap', tokenCredentialId: 'slack-pingcap-token', message: "${slackmsg}"
