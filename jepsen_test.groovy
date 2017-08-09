@@ -27,7 +27,8 @@ def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH) {
                 "Elapsed Time: `${duration}` Mins" + "\n"  +
                 "tidb Branch: `${TIDB_BRANCH}`" + "\n" +
                 "tikv Branch: `${TIKV_BRANCH}`" + "\n" +
-                "pd   Branch: `${PD_BRANCH}`" + "\n"
+                "pd   Branch: `${PD_BRANCH}`" + "\n" +
+                "${env.RUN_DISPLAY_URL}"
 
         if (result != "SUCCESS") {
             slackSend channel: '#octopus', color: 'danger', teamDomain: 'pingcap', tokenCredentialId: 'slack-pingcap-token', message: "${slackmsg}"
