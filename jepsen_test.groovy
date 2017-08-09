@@ -16,30 +16,19 @@ def call(RELEASE_URL, JEPSEN_BRANCH) {
             }
             stage('test') {
                     sh "echo 'start'"
-                    def result = sh(script: "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && ./run.sh ${RELEASE_URL}'", returnStdout: true)
-                    sh "echo ${result}"
+                    sh "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && ./run.sh ${RELEASE_URL}'"
+                    //sh "echo ${result}"
+                    result = "SUCCESS"
             }
             stage('symmary') {
                 def duration = ((System.currentTimeMillis() - currentBuild.startTimeInMillis) / 1000 / 60).setScale(2, BigDecimal.ROUND_HALF_UP)
                 def slackmsg = "[${env.JOB_NAME.replaceAll('%2F','/')}-${env.BUILD_NUMBER}] `${result}`" + "\n" + "Elapsed Time: `${duration}` Mins" + "\n"
-                if (result != "0") {
-                    slackSend channel: '#octopus', color: 'danger', teamDomain: 'pingcap', tokenCredentialId: 'slack-pingcap-token', message: "${slackmsg}"
-                } else {
-                    slackSend channel: '#octopus', color: 'good', teamDomain: 'pingcap', tokenCredentialId: 'slack-pingcap-token', message: "${slackmsg}"
-                }
-            }
-/*             stage('Summary') {
-                def duration = ((System.currentTimeMillis() - currentBuild.startTimeInMillis) / 1000 / 60).setScale(2, BigDecimal.ROUND_HALF_UP)
-                def slackmsg = "[${env.JOB_NAME.replaceAll('%2F','/')}-${env.BUILD_NUMBER}] `${result}`" + "\n" +
-                "Elapsed Time: `${duration}` Mins" + "\n""
-
                 if (result != "SUCCESS") {
                     slackSend channel: '#octopus', color: 'danger', teamDomain: 'pingcap', tokenCredentialId: 'slack-pingcap-token', message: "${slackmsg}"
                 } else {
                     slackSend channel: '#octopus', color: 'good', teamDomain: 'pingcap', tokenCredentialId: 'slack-pingcap-token', message: "${slackmsg}"
                 }
             }
-            */
         }
     }
 }
