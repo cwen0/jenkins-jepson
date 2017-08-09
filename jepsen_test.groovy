@@ -13,7 +13,7 @@ def call(RELEASE_URL, JEPSEN_BRANCH) {
                    git credentialsId: 'github-iamxy-ssh', url: "$BUILD_URL", branch: "${JEPSEN_BRANCH}"
                    githash = sh(returnStdout: true, script: "git rev-parse HEAD").trim()
                }
-               sh "docker cp ./jepsen jepsen-control:/jespsne"
+               sh "docker cp ./jepsen jepsen-control:/jepsne"
             }
             stage('test') {
                     sh "echo 'start'"
