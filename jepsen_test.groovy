@@ -19,18 +19,18 @@ def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH) {
                 sh "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && ./run.sh ${RELEASE_URL}'"
             }
         }
-        result = "SUCCESS"
+        currentBuild.result = "SUCCESS"
     }
     stage('Summary') {
         def duration = ((System.currentTimeMillis() - currentBuild.startTimeInMillis) / 1000 / 60).setScale(2, BigDecimal.ROUND_HALF_UP)
-        def slackmsg = "[${env.JOB_NAME.replaceAll('%2F','/')}-${env.BUILD_NUMBER}] `${result}`" + "\n" +
+        def slackmsg = "[${env.JOB_NAME.replaceAll('%2F','/')}-${env.BUILD_NUMBER}] `${currentBuild.result}`" + "\n" +
                 "Elapsed Time: `${duration}` Mins" + "\n"  +
                 "tidb Branch: `${TIDB_BRANCH}`" + "\n" +
                 "tikv Branch: `${TIKV_BRANCH}`" + "\n" +
                 "pd   Branch: `${PD_BRANCH}`" + "\n" +
                 "${env.RUN_DISPLAY_URL}"
 
-        if (result != "SUCCESS") {
+        if (currentBuild.result != "SUCCESS") {
             slackSend channel: '#octopus', color: 'danger', teamDomain: 'pingcap', tokenCredentialId: 'slack-pingcap-token', message: "${slackmsg}"
         } else {
             slackSend channel: '#octopus', color: 'good', teamDomain: 'pingcap', tokenCredentialId: 'slack-pingcap-token', message: "${slackmsg}"
