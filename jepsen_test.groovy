@@ -1,8 +1,6 @@
 def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH) {
     def BUILD_URL = 'git@github.com:pingcap/jepsen.git'
-    //def UCLOUD_OSS_URL = "http://pingcap-dev.hk.ufileos.com"
     env.PATH = "/data/jenkins/bin:/bin:${env.PATH}"
-    //def tidb_sha1, tikv_sha1, pd_sha1
 
     catchError {
         node('jepsen') {
