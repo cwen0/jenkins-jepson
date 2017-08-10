@@ -11,9 +11,8 @@ def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH) {
                     git credentialsId: 'github-iamxy-ssh', url: "$BUILD_URL", branch: "${JEPSEN_BRANCH}"
                     githash = sh(returnStdout: true, script: "git rev-parse HEAD").trim()
                 }
-                sh "echo ${ws}"
                 dir("${ws}") {
-                    sh "docker cp ./jepsen jepsen-control:/jepsen"
+                    sh "docker cp ${ws}/jepsen jepsen-control:/jepsen"
                 }
             }
             stage('test') {
