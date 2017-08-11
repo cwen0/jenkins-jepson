@@ -16,6 +16,9 @@ def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH) {
             stage('test') {
                 sh "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && ./run.sh ${RELEASE_URL}'"
             }
+            stage('clean') {
+                sh "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && rm -rf store'"
+            }
         }
         currentBuild.result = "SUCCESS"
     }
