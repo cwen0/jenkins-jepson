@@ -1,4 +1,4 @@
-def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH) {
+def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH, TIMEOUT) {
     def BUILD_URL = 'git@github.com:pingcap/jepsen.git'
     env.PATH = "/data/jenkins/bin:/bin:${env.PATH}"
 
@@ -14,10 +14,15 @@ def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH) {
                 sh "docker cp ${ws}/jepsen jepsen-control:/"
             }
             stage('test') {
-                sh "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && ./run.sh ${RELEASE_URL}'"
+                sh "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && timeout --preserve-status ${TIMEOUT} ./run.sh ${RELEASE_URL}'"
             }
             stage('clean') {
                 sh "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && rm -rf store'"
+                sh "docker exec jepsen-n1 bash -c 'rm -rf /tmp/jepsen/*'"
+                sh "docker exec jepsen-n2 bash -c 'rm -rf /tmp/jepsen/*'"
+                sh "docker exec jepsen-n3 bash -c 'rm -rf /tmp/jepsen/*'"
+                sh "docker exec jepsen-n4 bash -c 'rm -rf /tmp/jepsen/*'"
+                sh "docker exec jepsen-n5 bash -c 'rm -rf /tmp/jepsen/*'"
             }
         }
         currentBuild.result = "SUCCESS"
