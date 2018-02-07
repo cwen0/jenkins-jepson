@@ -6,6 +6,13 @@ def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH, TIMEOU
         node('jepsen') {
             stage('prepare'){
                 def ws = pwd()
+
+                sh "docker exec jepsen-n1 bash -c 'rm -rf /opt/tidb/*.log'"
+                sh "docker exec jepsen-n2 bash -c 'rm -rf /opt/tidb/*.log'"
+                sh "docker exec jepsen-n3 bash -c 'rm -rf /opt/tidb/*.log'"
+                sh "docker exec jepsen-n4 bash -c 'rm -rf /opt/tidb/*.log'"
+                sh "docker exec jepsen-n5 bash -c 'rm -rf /opt/tidb/*.log'"
+
                 dir("${ws}/jepsen") {
                     // checkout scm
                     git credentialsId: 'github-iamxy-ssh', url: "$BUILD_URL", branch: "${JEPSEN_BRANCH}"
