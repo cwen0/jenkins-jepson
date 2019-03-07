@@ -1,5 +1,5 @@
 def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH, TIMEOUT) {
-    def BUILD_URL = 'git@github.com:jepsen-io/jepsen.git'
+    def BUILD_URL = 'git@github.com:pingcap/jepsen.git'
     env.PATH = "/data/jenkins/bin:/bin:${env.PATH}"
 
     catchError {
