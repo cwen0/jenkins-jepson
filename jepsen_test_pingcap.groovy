@@ -44,7 +44,7 @@ def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH, TIMEOU
                 "${env.RUN_DISPLAY_URL}"
 
         if (currentBuild.result != "SUCCESS") {
-            slackSend channel: '#octopus', color: 'danger', teamDomain: 'pingcap', tokenCredentialId: 'slack-pingcap-token', message: "${slackmsg}"
+            slackSend channel: '#stability_test', color: 'danger', teamDomain: 'pingcap', tokenCredentialId: 'slack-pingcap-token', message: "${slackmsg}"
         }
     }
 }
