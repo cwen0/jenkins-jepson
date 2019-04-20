@@ -21,7 +21,7 @@ def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH, TIMEOU
                 sh "docker cp ${ws}/jepsen jepsen-control:/"
             }
             stage('test') {
-                sh "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && timeout --preserve-status ${TIMEOUT} ./run.sh ${RELEASE_URL}'"
+                sh "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && timeout --preserve-status ${TIMEOUT} lein run test-all'"
             }
             stage('clean') {
                 sh "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && rm -rf store'"
