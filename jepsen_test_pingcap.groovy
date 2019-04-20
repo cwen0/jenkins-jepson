@@ -7,11 +7,11 @@ def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH, TIMEOU
             stage('prepare'){
                 def ws = pwd()
 
-                # sh "docker exec jepsen-n1 bash -c 'rm -rf /opt/tidb/*.log'"
-                # sh "docker exec jepsen-n2 bash -c 'rm -rf /opt/tidb/*.log'"
-                # sh "docker exec jepsen-n3 bash -c 'rm -rf /opt/tidb/*.log'"
-                # sh "docker exec jepsen-n4 bash -c 'rm -rf /opt/tidb/*.log'"
-                # sh "docker exec jepsen-n5 bash -c 'rm -rf /opt/tidb/*.log'"
+                // sh "docker exec jepsen-n1 bash -c 'rm -rf /opt/tidb/*.log'"
+                // sh "docker exec jepsen-n2 bash -c 'rm -rf /opt/tidb/*.log'"
+                // sh "docker exec jepsen-n3 bash -c 'rm -rf /opt/tidb/*.log'"
+                // sh "docker exec jepsen-n4 bash -c 'rm -rf /opt/tidb/*.log'"
+                // sh "docker exec jepsen-n5 bash -c 'rm -rf /opt/tidb/*.log'"
 
                 dir("${ws}/jepsen") {
                     // checkout scm
@@ -23,14 +23,14 @@ def call(RELEASE_URL, JEPSEN_BRANCH, TIDB_BRANCH, TIKV_BRANCH, PD_BRANCH, TIMEOU
             stage('test') {
                 sh "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && timeout --preserve-status ${TIMEOUT} lein run test-all'"
             }
-            # stage('clean') {
-            #     sh "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && rm -rf store'"
-            #     sh "docker exec jepsen-n1 bash -c 'rm -rf /tmp/jepsen/*'"
-            #     sh "docker exec jepsen-n2 bash -c 'rm -rf /tmp/jepsen/*'"
-            #     sh "docker exec jepsen-n3 bash -c 'rm -rf /tmp/jepsen/*'"
-            #     sh "docker exec jepsen-n4 bash -c 'rm -rf /tmp/jepsen/*'"
-            #     sh "docker exec jepsen-n5 bash -c 'rm -rf /tmp/jepsen/*'"
-            # }
+            // stage('clean') {
+            //     sh "docker exec jepsen-control bash -c 'cd /jepsen/tidb/ && rm -rf store'"
+            //     sh "docker exec jepsen-n1 bash -c 'rm -rf /tmp/jepsen/*'"
+            //     sh "docker exec jepsen-n2 bash -c 'rm -rf /tmp/jepsen/*'"
+            //     sh "docker exec jepsen-n3 bash -c 'rm -rf /tmp/jepsen/*'"
+            //     sh "docker exec jepsen-n4 bash -c 'rm -rf /tmp/jepsen/*'"
+            //     sh "docker exec jepsen-n5 bash -c 'rm -rf /tmp/jepsen/*'"
+            // }
         }
         currentBuild.result = "SUCCESS"
     }
